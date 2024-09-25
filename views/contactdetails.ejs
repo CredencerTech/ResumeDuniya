@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Contact Form</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .form-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        h2 {
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .content {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        /* Left Section */
+        .left-section {
+            flex: 0.1;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .left-section i {
+            font-size: 169px;
+            color: #555;
+            cursor: pointer;
+            margin-bottom: 20px;
+            border: 3px solid #ddd;
+            border-radius: 50%;
+            padding: 10px;
+        }
+        .left-section img {
+            width: 169px;
+            height: 169px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+        .choose-photo-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .choose-photo-btn:hover {
+            background-color: #45a049;
+        }
+        .file-input {
+            display: none;
+        }
+        /* Middle Section */
+        .middle-section {
+            flex: 0.5;
+            padding: 20px;
+        }
+        .row {
+            display: flex;
+            gap: 20px;
+        }
+        label {
+            font-weight: 600;
+            margin: 10px 0 5px;
+            display: block;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button.submit-btn {
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        button.submit-btn:hover {
+            background-color: #45a049;
+        }
+        /* Right Section */
+        .right-section {
+            flex: 0.4;
+            padding: 20px;
+        }
+        .tips-card {
+            background-color: #23395d;
+            color: white;
+            width: 400px;
+            height: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px 40px;
+            position: relative;
+        }
+        .tips-card p {
+            font-size: 1em;
+            font-family: 'Verdana', sans-serif; /* Change paragraph font style */
+        }
+        .tips-card strong {
+            color: #4caf50;
+        }
+        .tips-card .tips-heading {
+            display: flex;
+            align-items: center;
+        }
+        .tips-card .tips-heading i {
+            font-size: 20px;
+            color: #4caf50;
+            margin-right: 10px;
+        }
+        /* Flower Decoration */
+        .flower-decor {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>What is the best way for Employers to contact you?</h2>
+
+    <div class="content">
+        <!-- Left Section: Profile Icon and Button -->
+        <div class="left-section">
+            <i class="fas fa-user-circle" id="profileIcon" onclick="triggerFileInput()"></i>
+            <img id="profilePicPreview" style="display: none;" />
+            <input type="file" id="profilePic" class="file-input" name="profilePic" accept="image/*" onchange="previewImage(event)">
+            <button class="choose-photo-btn" onclick="triggerFileInput()">Choose Photo</button>
+        </div>
+
+        <!-- Middle Section: Form Details -->
+        <div class="middle-section">
+            <form action="/submit" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col">
+                        <label for="firstName">First Name*</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="e.g. John" required>
+                    </div>
+                    <div class="col">
+                        <label for="lastName">Last Name*</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="e.g. David" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="phoneNumber">Phone Number*</label>
+                        <input type="number" id="phoneNumber" name="phoneNumber" placeholder="e.g. 1111111111" required>
+                    </div>
+                    <div class="col">
+                        <label for="email">Email*</label>
+                        <input type="email" id="email" name="email" placeholder="e.g. test@gmail.com" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="city">City*</label>
+                        <input type="text" id="city" name="city" placeholder="e.g. New Delhi" required>
+                    </div>
+                    <div class="col">
+                        <label for="pincode">Pincode</label>
+                        <input type="number" id="pincode" name="pincode" placeholder="e.g. 110075">
+                    </div>
+                </div>
+                <label for="careerInterest">Career Interest / Job Role*</label>
+                <input type="text" id="careerInterest" name="careerInterest" placeholder="e.g. Product Designer" required>
+                <label for="linkedIn">LinkedIn Profile Username</label>
+                <input type="text" id="linkedIn" name="linkedIn" placeholder="e.g. enter LinkedIn username">
+                <label for="portfolio">Link to Portfolio Website</label>
+                <input type="url" id="portfolio" name="portfolio" placeholder="e.g. enter URL of portfolio">
+                <button type="submit" class="submit-btn">Save & Next</button>
+            </form>
+        </div>
+
+        <!-- Right Section: Tips Card -->
+        <div class="right-section">
+            <div class="tips-card">
+                <img class="flower-decor" src="https://cdn.pixabay.com/photo/2017/09/14/11/14/water-2748660_640.png" alt="Flower Decoration" width="80">
+                <div class="tips-heading">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3><strong>Tips</strong></h3>
+                </div>
+                <p>More than 80% of employers think that a phone number and an email ID must always be present on a resume. Make sure you add your contact information so that employers can reach you easily.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function triggerFileInput() {
+        document.getElementById('profilePic').click();
+    }
+
+    function previewImage(event) {
+        var profilePicPreview = document.getElementById('profilePicPreview');
+        var profileIcon = document.getElementById('profileIcon');
+        profileIcon.style.display = 'none'; // Hide the icon when the image is uploaded
+        profilePicPreview.src = URL.createObjectURL(event.target.files[0]);
+        profilePicPreview.style.display = 'block'; // Show the image
+    }
+</script>
+
+</body>
+</html>

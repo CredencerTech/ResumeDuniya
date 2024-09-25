@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <title>Upload Resume</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding-top: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #f4f6f9;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            padding: 20px 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            font-size: 18px;
+        }
+
+        .navbar .logo {
+            color: #333;
+            margin-right: auto;
+            font-weight: bold;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .navbar .logo i {
+            margin-right: 10px;
+        }
+
+        .upload-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            margin-top: 30px;
+            text-align: left;
+            outline: 2px dotted #007bff;
+        }
+
+        .upload-container h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .upload-container label {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+            color: #555;
+        }
+
+        .upload-container input[type="file"],
+        .upload-container select {
+            font-size: 16px;
+            padding: 12px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        .upload-container input[type="file"]:focus,
+        .upload-container select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .upload-area.drag-over {
+            border-color: #007bff;
+            background-color: #e7f1ff;
+        }
+
+        .upload-container button {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            width: auto;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .upload-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .cost-display {
+            font-size: 18px;
+            font-weight: bold;
+            color: #444;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .qr-code-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .qr-code-container h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+
+        .upload-container input[type="file"]::file-selector-button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .upload-container input[type="file"]::file-selector-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo" onclick="location.href='/resume';" style="cursor: pointer;">
+            <i class="fas fa-home"></i> Back to Home
+        </div>
+    </div>
+    
+    <div class="upload-container">
+        <h1>Upload Your Resume</h1>
+        
+        <div class="upload-area" id="upload-area">
+            Drag & drop your files here or click to upload
+        </div>
+        <input type="file" accept=".pdf, .doc, .docx" id="file-input" style="display:none;" />
+        <div class="file-name" id="file-name">No file selected</div>
+
+        <!-- Image Upload Field -->
+        <label for="image-upload">Upload Image:</label>
+        <input type="file" accept=".jpg, .jpeg, .png" id="image-upload" />
+        <div class="file-name" id="image-name">No image uploaded</div>
+
+        <label for="resume-type">Select Resume Type:</label>
+        <select id="resume-type" onchange="updateCostAndQRCode()">
+            <option value="" data-cost="0">Select type of resume</option>
+            <option value="basic" data-cost="5">Basic Resume (₹5)</option>
+            <option value="standard" data-cost="10">Professional Resume (₹10)</option>
+            <option value="premium" data-cost="15">Premium Resume (₹15)</option>
+        </select>
+
+        <div class="cost-display" id="cost-display">Cost: ₹0</div>
+        
+        <div class="qr-code-container">
+            <h2>Pay via QR Code</h2>
+            <canvas id="qr-code"></canvas>
+        </div>
+        
+        <label for="payment-screenshot">Upload Payment Screenshot:</label>
+        <input type="file" accept=".jpg, .jpeg, .png" id="payment-screenshot" />
+        <div class="file-name" id="screenshot-name">No screenshot uploaded</div>
+        
+        <button onclick="submitDetails()">Submit Details</button>
+    </div>
+    
+    <script>
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const fileNameDisplay = document.getElementById('file-name');
+        const imageInput = document.getElementById('image-upload');
+        const imageNameDisplay = document.getElementById('image-name');
+        const screenshotInput = document.getElementById('payment-screenshot');
+        const screenshotNameDisplay = document.getElementById('screenshot-name');
+        const qr = new QRious({
+            element: document.getElementById('qr-code'),
+            size: 200
+        });
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                displayFileName(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            const files = fileInput.files;
+            if (files.length > 0) {
+                displayFileName(files[0]);
+            } else {
+                fileNameDisplay.textContent = 'No file selected';
+            }
+        });
+
+        imageInput.addEventListener('change', () => {
+            const files = imageInput.files;
+            if (files.length > 0) {
+                imageNameDisplay.textContent = files[0].name;
+            } else {
+                imageNameDisplay.textContent = 'No image uploaded';
+            }
+        });
+
+        screenshotInput.addEventListener('change', () => {
+            const files = screenshotInput.files;
+            if (files.length > 0) {
+                screenshotNameDisplay.textContent = files[0].name;
+            } else {
+                screenshotNameDisplay.textContent = 'No screenshot uploaded';
+            }
+        });
+
+        function displayFileName(file) {
+            fileNameDisplay.textContent = file.name;
+        }
+
+        function updateCostAndQRCode() {
+            const resumeType = document.getElementById('resume-type');
+            const selectedOption = resumeType.options[resumeType.selectedIndex];
+            const cost = selectedOption.getAttribute('data-cost') || '0';
+            document.getElementById('cost-display').textContent = 'Cost: ₹' + cost;
+            if (cost > 0) {
+                qr.value = `upi://pay?pa=ab1017@axl&pn=AB-Store&am=${cost}`;
+            } else {
+                qr.value = '';
+            }
+        }
+
+        function submitDetails() {
+            const resumeFile = fileInput.files.length > 0;
+            const imageFile = imageInput.files.length > 0;
+            const screenshotFile = screenshotInput.files.length > 0;
+            const resumeType = document.getElementById('resume-type').value;
+
+            if (!resumeFile) {
+                alert("Please upload your resume.");
+                return;
+            }
+            if (!imageFile) {
+                alert("Please upload an image.");
+                return;
+            }
+            if (resumeType === "") {
+                alert("Please select a resume type.");
+                return;
+            }
+            if (!screenshotFile) {
+                alert("Please upload the payment screenshot.");
+                return;
+            }
+
+            alert("Details submitted successfully!");
+            // Add your submission logic here, such as sending the data to the server.
+        }
+    </script>
+</body>
+</html>
+
+

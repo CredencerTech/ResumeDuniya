@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <title>Upload Resume</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding-top: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #e6f7ff; /* Light blue background color */
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            padding: 30px;
+            z-index: 1000;
+            font-size: 18px;
+        }
+
+        .navbar .logo {
+            color: #333;
+            margin-right: auto;
+        }
+
+        .navbar .logo i {
+            margin-right: 10px;
+        }
+
+        .upload-container {
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-section label {
+            width: 150px;
+            font-weight: bold;
+        }
+
+        .form-section input[type="file"],
+        .form-section select {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .upload-area {
+            border: 2px dashed #aaa;
+            border-radius: 5px;
+            padding: 20px;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .upload-container button {
+            padding: 10px 20px;
+            background-color: #a82d2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .upload-container button:hover {
+            background-color: #c05c5c;
+        }
+
+        .cost-display {
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 400px;
+            text-align: center;
+        }
+
+        canvas {
+            margin-top: 10px;
+        }
+
+        .timer {
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo" onclick="location.href='/resume';" style="cursor: pointer;">
+            <i class="fas fa-home"></i> Back to Home
+        </div>
+    </div>
+    
+    <div class="upload-container">
+        <h1 style="text-align: center;">Upload Your Resume</h1>
+        
+        <!-- Resume Upload -->
+        <div class="form-section">
+            <label>Resume Upload:</label>
+            <div class="upload-area" id="upload-area">
+                Drag & drop your resume here or click to upload
+            </div>
+            <input type="file" accept=".pdf, .doc, .docx" id="file-input" style="display:none;" />
+        </div>
+        <div class="form-section">
+            <label>Selected File   :</label>
+            <div class="file-name" id="file-name">No file selected</div>
+        </div>
+
+        <!-- Image Upload after resume -->
+        <div class="form-section">
+            <label>Upload Image:</label>
+            <input type="file" accept=".jpg, .jpeg, .png" id="image-input" />
+        </div>
+
+        <!-- Resume Type Selection -->
+        <div class="form-section">
+            <label for="resume-type">Resume Type:</label>
+            <select id="resume-type" onchange="updateCost()">
+                <option value="" data-cost="0">Select type of resume</option>
+                <option value="basic" data-cost="5">Basic Resume (₹5)</option>
+                <option value="standard" data-cost="10">Standard Resume (₹10)</option>
+                <option value="premium" data-cost="15">Premium Resume (₹15)</option>
+            </select>
+        </div>
+        <div class="form-section">
+            <label>Cost:</label>
+            <div class="cost-display" id="cost-display">Cost: ₹0</div>
+        </div>
+
+        <!-- Make Payment Button -->
+        <div id="make-payment">
+            <button onclick="generateQRCode()">Make Payment</button>
+        </div>
+
+        <!-- Modal for QR Code -->
+        <div class="modal" id="qr-modal">
+            <div class="modal-content">
+                <h2>Pay via QR Code</h2>
+                <canvas id="qr-code"></canvas>
+                <div class="timer" id="timer">Time left: 02:00</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const fileNameDisplay = document.getElementById('file-name');
+        const makePaymentButton = document.getElementById('make-payment');
+        const qrModal = document.getElementById('qr-modal');
+        const qr = new QRious({
+            element: document.getElementById('qr-code'),
+            size: 200
+        });
+
+        let countdownTimer;
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                displayFileName(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            const files = fileInput.files;
+            if (files.length > 0) {
+                displayFileName(files[0]);
+            }
+        });
+
+        function displayFileName(file) {
+            fileNameDisplay.textContent = `Selected file: ${file.name}`;
+        }
+
+        function updateCost() {
+            const select = document.getElementById('resume-type');
+            const costDisplay = document.getElementById('cost-display');
+            const selectedOption = select.options[select.selectedIndex];
+            const cost = selectedOption.getAttribute('data-cost');
+            costDisplay.textContent = `Cost: ₹${cost}`;
+
+            if (cost > 0) {
+                makePaymentButton.style.display = 'block';
+            } else {
+                makePaymentButton.style.display = 'none';
+            }
+        }
+
+        function generateQRCode() {
+            const upiID = 'ab1017@axl';
+            const amount = document.getElementById('resume-type').options[document.getElementById('resume-type').selectedIndex].getAttribute('data-cost');
+            const qrCodeValue = `upi://pay?pa=${upiID}&pn=YourName&mc=YourMC&tid=YourTransactionID&tn=YourTransactionNote&am=${amount}&cu=INR&url=`;
+            qr.set({
+                value: qrCodeValue
+            });
+            qrModal.style.display = 'block';
+            startTimer();
+        }
+
+        function startTimer() {
+            const timerDisplay = document.getElementById('timer');
+            let timeLeft = 120; // 2 minutes in seconds
+            countdownTimer = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(countdownTimer);
+                    qrModal.style.display = 'none';
+                    alert('Payment time has expired.');
+                }
+            }, 1000);
+        }
+
+        window.onclick = function(event) {
+            if (event.target == qrModal) {
+                qrModal.style.display = "none";
+                clearInterval(countdownTimer);
+            }
+        }
+    </script>
+</body>
+</html>

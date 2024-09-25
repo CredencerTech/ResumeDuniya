@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for profile icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <style>
+        /* Navbar styles */
+        body {
+            --tw-bg-opacity: 1;
+            background-color: rgb(240 238 235 / var(--tw-bg-opacity));
+            
+        }
+        .navbar {
+            background: linear-gradient(90deg, #4a90e2, #9013fe); /* Gradient background */
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 20px;
+        }
+        
+        .profile-icon {
+            color: #f2f2f2;
+            padding: 14px 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Profile info styles */
+        .profile-info {
+            color: #333;
+            padding: 20px;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 250px;
+            text-align: center;
+        }
+        .profile-info span {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        /* Button styles */
+        .profile-info .btn-logout {
+            background-color: #28a745; /* Green background */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .profile-info .btn-logout:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Card styles */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            width: 18rem;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        button {
+    padding: 15px 30px;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: white;
+    background-color: #1A73E8;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #155AB3;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg position-relative">
+        <a class="navbar-brand" href="#">Resume-Duniya</a>
+        <a class="nav-link" href="#pricing">Pricing</a>
+
+        <!-- Spacer to push the profile icon to the right -->
+        <div class="d-flex ms-auto position-relative">
+            <% if (username) { %>
+                <i class="fas fa-user-circle profile-icon" id="profileIcon" title="Profile"></i>
+                <div class="profile-info p-3 rounded shadow" id="profileInfo">
+                    <span class="d-block mb-2">Welcome, <b><%= username %>!</b></span>
+                    <hr class="my-2">
+                    <a href="#" class="btn btn-primary d-flex align-items-center mb-2">
+                        <i class="fas fa-file-alt me-2"></i> My Resumes
+                    </a>
+                    <hr class="my-2">
+                    <form action="/logout" method="post">
+                        <button type="submit" class="btn btn-danger w-100">Logout</button>
+                    </form>
+                </div>
+                                
+            <% } %>
+        </div>
+    </nav>
+
+    <h4 style="text-align: center; margin-top: 25px; color: #575656;"><b><i><U> Welcome to Resume Duniya</U></i></b></h4>
+    <h1 style="text-align: center; font-size: 3rem; line-height: 1.5; font-family: 'Poppins', sans-serif;"><b>Do you want us to design your Resume?</b></h1>
+    <div style="text-align: center;">
+        <button type="button" onclick="location.href='/resume';">Get Started</button>
+    </div>
+    
+
+    <!--   <img src="images/resumeduniya.jpg" alt="Resume-Duniya">  -->
+
+    <!-- Card to open Google Form -->
+    
+
+    <!-- Pricing Section -->
+<section id="pricing" style="margin-top: 50px;">
+    <div class="container">
+        <h2 class="text-center">Resume Pricing</h2><hr>
+        <div class="row justify-content-center">
+            <!-- Card 1 -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <img src="https://img.freepik.com/premium-vector/simple-high-school-resume_23-2148975432.jpg?size=626&ext=jpg" 
+                         class="card-img-top" 
+                         alt="Basic Resume Image" 
+                         style="height: 250px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Basic Resume</h5>
+                        <p class="card-text">For freshers and entry-level jobs.</p>
+                        <p><b>Price:</b> ₹500</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <img src="https://img.freepik.com/premium-vector/modern-simple-template-curriculum-elegant-resume-template_1435-1526.jpg?size=626&ext=jpg" 
+                         class="card-img-top" 
+                         alt="Professional Resume Image" 
+                         style="height: 250px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Professional Resume</h5>
+                        <p class="card-text">For experienced professionals.</p>
+                        <p><b>Price:</b> ₹1000</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <img src="https://img.freepik.com/free-vector/minimalist-cv-template_23-2148903758.jpg?ga=GA1.1.1415883179.1725444376&semt=ais_hybrid" 
+                         class="card-img-top" 
+                         alt="Executive Resume Image" 
+                         style="height: 250px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Executive Resume</h5>
+                        <p class="card-text">For senior and executive roles.</p>
+                        <p><b>Price:</b> ₹2000</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <img src="https://img.freepik.com/free-vector/creative-red-blue-cv-template_23-2147741160.jpg?ga=GA1.1.1415883179.1725444376&semt=ais_hybrid" 
+                         class="card-img-top" 
+                         alt="Creative Resume Image" 
+                         style="height: 250px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Creative Resume</h5>
+                        <p class="card-text">For creative professionals.</p>
+                        <p><b>Price:</b> ₹1500</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer Section -->
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container text-center text-md-left">
+        <div class="row text-center text-md-left">
+            
+            <!-- About Us Section -->
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Resume Duniya</h5><hr>
+                <p>We provide professional resume design services to help you stand out in the competitive job market. Choose the resume that best suits your needs!</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Quick Links</h5><hr>
+                <p><a href="#" class="text-white link-hover" style="text-decoration: none;">Home</a></p>
+                <p><a href="#" class="text-white link-hover" style="text-decoration: none;">Pricing</a></p>
+                <p><a href="#" class="text-white link-hover" style="text-decoration: none;">Services</a></p>
+                <p><a href="#" class="text-white link-hover" style="text-decoration: none;">Contact Us</a></p>
+            </div>
+
+            <!-- Our Services -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Our Services</h5><hr>
+                <p><a href="#pricing" class="text-white link-hover" style="text-decoration: none;">Basic Resume</a></p>
+                <p><a href="#pricing" class="text-white link-hover" style="text-decoration: none;">Professional Resume</a></p>
+                <p><a href="#pricing" class="text-white link-hover" style="text-decoration: none;">Executive Resume</a></p>
+                <p><a href="#pricing" class="text-white link-hover" style="text-decoration: none;">Creative Resume</a></p>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Contact</h5><hr>
+                <p><i class="fas fa-home mr-3"></i> 123, Corporate St, City, India</p>
+                <p><i class="fas fa-envelope mr-3"></i> info@resumeduniya.com</p>
+                <p><i class="fas fa-phone mr-3"></i> + 91 234 567 8901</p>
+                <p><i class="fas fa-print mr-3"></i> + 91 234 567 8902</p>
+            </div>
+        </div>
+
+        <!-- Social Media Links -->
+        <hr class="mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-7 col-lg-8">
+                <p class="text-center text-md-left">© 2024 All Rights Reserved:
+                    <a href="#" class="text-warning" style="text-decoration: none;">
+                        <strong> Resume Duniya</strong>
+                    </a>
+                </p>
+            </div>
+
+            <div class="col-md-5 col-lg-4">
+                <div class="text-center text-md-right">
+                    <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-facebook-f"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-instagram"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="fab fa-linkedin-in"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Hover effect for links -->
+<style>
+    .link-hover:hover {
+        color: #d2be3c !important; /* Blue color on hover */
+    }
+</style>
+ 
+
+<!-- FontAwesome CDN for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Toggle profile info visibility
+        document.getElementById('profileIcon').addEventListener('click', function() {
+            var profileInfo = document.getElementById('profileInfo');
+            if (profileInfo.style.display === 'block') {
+                profileInfo.style.display = 'none';
+            } else {
+                profileInfo.style.display = 'block';
+            }
+        });
+
+        // Close profile info if clicked outside
+        window.addEventListener('click', function(event) {
+            var profileIcon = document.getElementById('profileIcon');
+            var profileInfo = document.getElementById('profileInfo');
+            if (!profileIcon.contains(event.target) && !profileInfo.contains(event.target)) {
+                profileInfo.style.display = 'none';
+            }
+        });
+
+        // Function to open Google Form
+        function openGoogleForm() {
+            window.open('https://forms.gle/yLnoCoFfuHvyBYzd6', '_blank'); // Replace with actual Google Form link
+        }
+    </script>
+
+</body>
+
+</html>

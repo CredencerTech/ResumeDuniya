@@ -1,0 +1,142 @@
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+.form-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+h2 {
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+.content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+/* Left Section */
+.left-section {
+    flex: 0.1;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.left-section i {
+    font-size: 169px;
+    color: #555;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border: 3px solid #ddd;
+    border-radius: 50%;
+    padding: 10px;
+}
+.left-section img {
+    width: 169px;
+    height: 169px;
+    border-radius: 50%;
+    border: 3px solid #ddd;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+.choose-photo-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.choose-photo-btn:hover {
+    background-color: #45a049;
+}
+.file-input {
+    display: none;
+}
+/* Middle Section */
+.middle-section {
+    flex: 0.5;
+    padding: 20px;
+}
+.row {
+    display: flex;
+    gap: 20px;
+}
+label {
+    font-weight: 600;
+    margin: 10px 0 5px;
+    display: block;
+    color: #333;
+}
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="url"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+button.submit-btn {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    width: 100%;
+}
+button.submit-btn:hover {
+    background-color: #45a049;
+}
+/* Right Section */
+.right-section {
+    flex: 0.4;
+    padding: 20px;
+}
+.tips-card {
+    background-color: #23395d;
+    color: white;
+    width: 400px;
+    height: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+    position: relative;
+}
+.tips-card p {
+    font-size: 1em;
+    font-family: 'Verdana', sans-serif; /* Change paragraph font style */
+}
+.tips-card strong {
+    color: #4caf50;
+}
+.tips-card .tips-heading {
+    display: flex;
+    align-items: center;
+}
+.tips-card .tips-heading i {
+    font-size: 20px;
+    color: #4caf50;
+    margin-right: 10px;
+}
+/* Flower Decoration */
+.flower-decor {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.8;
+}
